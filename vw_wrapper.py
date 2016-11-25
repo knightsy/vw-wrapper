@@ -39,6 +39,13 @@ def remove_null_keys(dict_to_clean):
         if j != None and j != 'None': cleaned.append((i,j))
     return dict(cleaned)
     
+def fill_key_spaces(dict_to_clean):
+    return_dict = {}
+    for key, value in dict_to_clean.items():
+        return_key = string.replace(key,' ','_')
+        return_dict[return_key] = value
+    return return_dict
+    
 
 
 
@@ -61,7 +68,7 @@ def pynetcat(hostname, port, content):
     s.sendall(content)
     s.shutdown(socket.SHUT_WR)
     while 1:
-        data = s.recv(4096)
+        data = s.recv(2048)
         if data == "":
             break
 #        print "Received:", repr(data)
@@ -99,8 +106,10 @@ def json_to_vw(json_input):
 
     # flatten the dictionary - this is a short term kludge to deal with nested attributes
     json_input = flatten(json_input)
+    json_input = fill_key_spaces(json_input)
 
     vw_example = label + ' ' + weight + ' ' + tag + '| '
+    #print type(json_input)
 
     for i in json_input:
         value = json_input[i]
@@ -141,20 +150,26 @@ def tests():
 
     
     #json_in = ({ "weight":0.0001 , "ns1":{"location":"New York", "f2":3.4}, "label":0,"_tag":"1234", "_text": "yo dawg it be some text"})
-    json_in = ({  "ns1":{"location":"New York", "f2":3.4}, "label":1,"_tag":"1234", "_text": "yo dawg it be some text"})
+#    json_in = ({  "ns1":{"location":"New York", "f2":3.4}, "_label":0,"_tag":"1234", "_text": "yo dawg it be some text"})
+#    json_in = ({  "ns1":{"shopping":8, "sport":1}, "_label":1 , "_tag":"wassup"})
+    json_in = ({  "ns1":{"shopping":1, "sport":8}, "_label":0 , "_tag":"wassup"})    
     vw_example =  json_to_vw(json_in)
     print vw_example
+#    pynetcat('localhost',26542, vw_example)
 #
 #    reply = pynetcat('localhost',26542, vw_example)
+#    print reply
 #
 #    print vw_replyline_to_json(reply, "Yes")
     
     i = 0
-    while i < 100:
+    while i < 1:
         reply = pynetcat('localhost',26542, vw_example)
+        print reply
         print vw_replyline_to_json(reply, "Yes")
         i += 1
 
 
 
-#tests()
+if __name__ == '__main__':
+    tests()
