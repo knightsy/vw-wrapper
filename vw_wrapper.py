@@ -25,7 +25,7 @@ def flatten(d, parent_key='', sep='_'):
         else:
             items.append((new_key, v))
     return dict(items)
-    
+
 def remove_specials(string_to_clean, replacement_char='_'):
     
     clean_string = string_to_clean.replace("\n",replacement_char)
@@ -53,7 +53,7 @@ def parse_string(x):
     lambda x: x.isalpha() and x or x.isdigit() and \
     int(x) or x.isalnum() and x or \
     len(set(string.punctuation).intersection(x)) == 1 and \
-    x.count('.') == 1 and float(x) or x   
+    x.count('.') == 1 and float(x) or x
     
     return x
        
@@ -72,7 +72,7 @@ def pynetcat(hostname, port, content):
         if data == "":
             break
 #        print "Received:", repr(data)
-#        reply = repr(data) 
+#        reply = repr(data)
         reply = data
 #    print "Connection closed."
     s.close()
@@ -91,10 +91,10 @@ def json_to_vw(json_input):
     tag = ''
     if "_tag" in json_input:
         tag = str(json_input["_tag"])
-    weight = ''    
+    weight = ''
     if "_weight" in json_input:
         weight = str(json_input["_weight"])
-    text = ''    
+    text = ''
     if "_text" in json_input:
         text = str(json_input["_text"])
     
@@ -116,7 +116,7 @@ def json_to_vw(json_input):
         separator = ':'
         if isinstance(value,basestring):
             separator = '_'
-            value = value.replace(' ','_') 
+            value = value.replace(' ','_')
 #            print value
         vw_example += i + separator + str(value) + ' '
         
@@ -126,12 +126,12 @@ def json_to_vw(json_input):
     
 
 
-def vw_replyline_to_json(vw_reply, has_tag = 'No'): 
+def vw_replyline_to_json(vw_reply, has_tag = 'No'):
      #this only accepts strings - for multiple examples, loop over this function
     _tag = ''
-    vw_reply_dict = {} 
+    vw_reply_dict = {}
     vw_reply_list = vw_reply.split()
-    if has_tag == 'Yes': 
+    if has_tag == 'Yes':
         _tag = vw_reply_list[-1]
         del vw_reply_list[-1]
         vw_reply_dict["_tag"] = _tag
