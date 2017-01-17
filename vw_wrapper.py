@@ -152,7 +152,7 @@ def tests():
     #json_in = ({ "weight":0.0001 , "ns1":{"location":"New York", "f2":3.4}, "label":0,"_tag":"1234", "_text": "yo dawg it be some text"})
 #    json_in = ({  "ns1":{"location":"New York", "f2":3.4}, "_label":0,"_tag":"1234", "_text": "yo dawg it be some text"})
 #    json_in = ({  "ns1":{"shopping":8, "sport":1}, "_label":1 , "_tag":"wassup"})
-    json_in = ({  "ns1":{"shopping":1, "sport":8}, "_label":0 , "_tag":"wassup"})    
+    json_in = ({  "ns1":{"shopping":1, "sport":8}, "_label":0 , "_tag":"wassup"})
     vw_example =  json_to_vw(json_in)
     print vw_example
 #    pynetcat('localhost',26542, vw_example)
